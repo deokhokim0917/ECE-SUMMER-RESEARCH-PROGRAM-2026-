@@ -34,7 +34,7 @@
             width: 95%; 
             max-width: 1450px; 
             display: grid; 
-            grid-template-columns: 1fr 1.2fr 1fr; /* Perfectly balanced proportions */
+            grid-template-columns: 1fr 1.2fr 1fr; 
             gap: 30px; 
             border: 2px solid var(--tech-silver); 
             padding: 35px; 
@@ -129,42 +129,49 @@
         
         .btn-node.active::before { background: var(--utah-red); box-shadow: 0 0 8px var(--utah-red); border-color: var(--utah-red); }
         
-        /* Center Panel: Sleek No-Logo Design */
+        /* Center Panel: Sleek Minimalist Design */
         .cpu-container { 
             align-items: center; 
             justify-content: center; 
             text-align: center; 
         }
 
-        /* Animated Hardware Rings instead of a Logo */
-        .core-ring-outer {
-            width: 140px; height: 140px;
-            border: 4px dashed var(--utah-red);
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            margin: 20px auto 30px auto;
-            animation: spin 15s linear infinite;
-            box-shadow: 0 0 25px rgba(204, 0, 0, 0.15);
+        /* Minimalist Signal Pulse Line */
+        .signal-container {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px 0;
+        }
+        
+        .signal-line {
+            width: 60%;
+            height: 2px;
+            background: var(--tech-silver);
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+        
+        .signal-blip {
+            width: 40px;
+            height: 100%;
+            background: var(--utah-red);
+            position: absolute;
+            top: 0;
+            left: -40px;
+            box-shadow: 0 0 8px var(--utah-red);
+            animation: pulse-travel 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
 
-        .core-ring-inner {
-            width: 90px; height: 90px;
-            border: 4px solid var(--text-dark);
-            border-radius: 50%;
-            animation: spin-reverse 8s linear infinite;
-            display: flex; justify-content: center; align-items: center;
+        @keyframes pulse-travel {
+            0% { left: -40px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
         }
-
-        .core-dot {
-            width: 20px; height: 20px;
-            background-color: var(--utah-red);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--utah-red);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
         
         .sys-info {
             background: #f8fafc; border: 1px dashed var(--tech-silver); padding: 20px; border-radius: 6px;
@@ -224,18 +231,19 @@
         </div>
 
         <div class="panel cpu-container">
-            <h2 style="width: 100%; border: none; text-align: center; justify-content: center; margin-bottom: 10px;">SYSTEM CORE</h2>
+            <h2 style="width: 100%; border: none; text-align: center; justify-content: center; margin-bottom: 30px;">SYSTEM CORE</h2>
             
-            <div class="core-ring-outer">
-                <div class="core-ring-inner">
-                    <div class="core-dot"></div>
-                </div>
-            </div>
-            
-            <div style="font-size: 2.2rem; font-weight: 900; color: var(--text-dark); margin-top: 10px; line-height: 1.2;">
+            <div style="font-size: 2.6rem; font-weight: 900; color: var(--text-dark); line-height: 1.2;">
                 Professor<br>Hanseop Kim
             </div>
-            <div style="font-size: 1.1rem; color: var(--utah-red); font-weight: bold; letter-spacing: 2px; margin-top: 15px;">
+
+            <div class="signal-container">
+                <div class="signal-line">
+                    <div class="signal-blip"></div>
+                </div>
+            </div>
+
+            <div style="font-size: 1.2rem; color: var(--utah-red); font-weight: bold; letter-spacing: 2px;">
                 ECE SUMMER RESEARCH CAMP 2026
             </div>
 
