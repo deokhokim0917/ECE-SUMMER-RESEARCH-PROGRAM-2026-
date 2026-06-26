@@ -32,12 +32,12 @@
         
         #dashboard { 
             width: 95%; 
-            max-width: 1600px; 
+            max-width: 1450px; 
             display: grid; 
-            grid-template-columns: 1fr 1.6fr 1fr; 
-            gap: 25px; 
+            grid-template-columns: 1fr 1.2fr 1fr; /* Perfectly balanced proportions */
+            gap: 30px; 
             border: 2px solid var(--tech-silver); 
-            padding: 30px; 
+            padding: 35px; 
             border-radius: 12px; 
             background: rgba(255, 255, 255, 0.95); 
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1); 
@@ -109,6 +109,7 @@
             text-align: left;
             position: relative;
             box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.1s ease;
         }
         
         .btn-node::before {
@@ -128,24 +129,46 @@
         
         .btn-node.active::before { background: var(--utah-red); box-shadow: 0 0 8px var(--utah-red); border-color: var(--utah-red); }
         
-        /* Center Panel: PERFECTLY CENTERED NOW */
+        /* Center Panel: Sleek No-Logo Design */
         .cpu-container { 
             align-items: center; 
-            justify-content: center; /* This scooches everything to the exact middle */
+            justify-content: center; 
             text-align: center; 
         }
 
-        /* Pure CSS Coded Block U Logo - Mathematically Symmetrical */
-        .coded-logo {
-            width: 150px; 
-            height: 150px;
-            margin: 15px auto 30px auto;
-            filter: drop-shadow(0 15px 25px rgba(204, 0, 0, 0.25));
+        /* Animated Hardware Rings instead of a Logo */
+        .core-ring-outer {
+            width: 140px; height: 140px;
+            border: 4px dashed var(--utah-red);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            margin: 20px auto 30px auto;
+            animation: spin 15s linear infinite;
+            box-shadow: 0 0 25px rgba(204, 0, 0, 0.15);
         }
+
+        .core-ring-inner {
+            width: 90px; height: 90px;
+            border: 4px solid var(--text-dark);
+            border-radius: 50%;
+            animation: spin-reverse 8s linear infinite;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .core-dot {
+            width: 20px; height: 20px;
+            background-color: var(--utah-red);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--utah-red);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
         
         .sys-info {
-            background: #f8fafc; border: 1px dashed var(--tech-silver); padding: 15px; border-radius: 6px;
-            font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--text-muted); text-align: left; width: 85%; margin-top: 35px;
+            background: #f8fafc; border: 1px dashed var(--tech-silver); padding: 20px; border-radius: 6px;
+            font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--text-muted); text-align: left; width: 85%; margin-top: 40px;
         }
         
         /* Right Panel: Terminal Output */
@@ -161,7 +184,7 @@
             line-height: 1.7;
             font-family: 'Courier New', monospace; 
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-            min-height: 400px;
+            min-height: 450px;
         }
         
         .blinking-cursor { 
@@ -170,7 +193,7 @@
         }
         
         /* Animated Digital Waveform */
-        .waveform { display: flex; gap: 3px; height: 30px; align-items: flex-end; margin-bottom: 20px; opacity: 0; transition: opacity 0.3s; }
+        .waveform { display: flex; gap: 4px; height: 30px; align-items: flex-end; margin-bottom: 25px; opacity: 0; transition: opacity 0.3s; }
         .system-busy .waveform { opacity: 1; }
         .bar { width: 8px; background: var(--utah-red); animation: eq 0.8s ease-in-out infinite alternate; }
         .bar:nth-child(1) { animation-delay: 0.1s; }
@@ -178,6 +201,7 @@
         .bar:nth-child(3) { animation-delay: 0.5s; }
         .bar:nth-child(4) { animation-delay: 0.2s; }
         .bar:nth-child(5) { animation-delay: 0.6s; }
+        .bar:nth-child(6) { animation-delay: 0.4s; }
         
         @keyframes eq { 0% { height: 5px; } 100% { height: 30px; } }
         @keyframes blink { 50% { opacity: 0; } }
@@ -200,19 +224,18 @@
         </div>
 
         <div class="panel cpu-container">
-            <h2 style="width: 100%; border: none; text-align: center; justify-content: center; margin-bottom: 20px;">SYSTEM CORE</h2>
+            <h2 style="width: 100%; border: none; text-align: center; justify-content: center; margin-bottom: 10px;">SYSTEM CORE</h2>
             
-            <svg class="coded-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <polygon fill="var(--utah-red)" points="
-                    12,0 44,0 44,22 36,22 36,75 64,75 64,22 56,22 56,0 88,0
-                    88,22 80,22 80,75 88,75 88,100 12,100 12,75 20,75 20,22 12,22
-                "/>
-            </svg>
-            
-            <div style="font-size: 2.4rem; font-weight: 900; color: var(--text-dark); margin-top: 10px;">
-                Professor Hanseop Kim
+            <div class="core-ring-outer">
+                <div class="core-ring-inner">
+                    <div class="core-dot"></div>
+                </div>
             </div>
-            <div style="font-size: 1.2rem; color: var(--utah-red); font-weight: bold; letter-spacing: 2px; margin-top: 8px;">
+            
+            <div style="font-size: 2.2rem; font-weight: 900; color: var(--text-dark); margin-top: 10px; line-height: 1.2;">
+                Professor<br>Hanseop Kim
+            </div>
+            <div style="font-size: 1.1rem; color: var(--utah-red); font-weight: bold; letter-spacing: 2px; margin-top: 15px;">
                 ECE SUMMER RESEARCH CAMP 2026
             </div>
 
@@ -228,7 +251,7 @@
             <h2>OUTPUT_CONSOLE</h2>
             <div id="terminal">
                 <div class="waveform">
-                    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                 </div>
                 <span id="terminal-text">> SECURE SYSTEM BOOT SEQUENCE COMPLETE.<br>> WAITING FOR DATA INTERRUPT...<br><br>Toggle a student link to initiate transmission.</span><span class="blinking-cursor"></span>
             </div>
@@ -296,31 +319,4 @@
             
             const actualMessage = messages[id].text;
 
-            scrambleText("decryption-target", messages[id].name.toUpperCase(), () => {
-                
-                let i = 0;
-                const payloadTarget = document.getElementById('payload-target');
-
-                function typeWriter() {
-                    if (i < actualMessage.length) {
-                        payloadTarget.innerHTML += actualMessage.charAt(i);
-                        i++;
-                        
-                        const termDiv = document.getElementById('terminal');
-                        termDiv.scrollTop = termDiv.scrollHeight;
-                        
-                        setTimeout(typeWriter, 15); 
-                    } else {
-                        terminalText.innerHTML += '<br><br><span style="color:#64748b; font-size:1rem; font-family:\'Courier New\', monospace;">> TX_COMPLETE. BUS RELEASED.</span>';
-                        leds.classList.remove('system-busy');
-                        busStatus.innerText = "IDLE";
-                        busStatus.style.color = "var(--utah-red)";
-                        isTyping = false;
-                    }
-                }
-                setTimeout(typeWriter, 200); 
-            });
-        }
-    </script>
-</body>
-</html>
+            scrambleText("decryption-target", messages
