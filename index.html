@@ -89,12 +89,12 @@
         .btn-node { 
             background: var(--bg-white); 
             border: 2px solid var(--tech-silver); 
-            color: var(--text-muted); 
+            color: var(--text-dark); 
             padding: 15px 10px; 
             cursor: pointer; 
             transition: all 0.2s ease; 
-            font-family: 'Courier New', monospace; 
-            font-size: 0.95rem; 
+            font-family: inherit; 
+            font-size: 1rem; 
             border-radius: 6px;
             font-weight: 600;
         }
@@ -117,7 +117,7 @@
         }
 
         .logo-img {
-            width: 220px; /* Nice big logo */
+            width: 340px; /* Made the logo WAY bigger */
             margin-top: 15px;
             margin-bottom: 25px;
         }
@@ -150,7 +150,7 @@
             color: var(--text-dark); 
             padding: 25px; 
             border-radius: 6px; 
-            height: 360px; 
+            height: 380px; 
             overflow-y: auto; 
             border: 1px solid var(--tech-silver); 
             border-left: 4px solid var(--utah-red); /* Tech interface accent */
@@ -180,8 +180,8 @@
 <body>
     <div id="dashboard">
         <div class="panel">
-            <h2>[ DATA_NODES ]</h2>
-            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; margin-top: 15px; font-family: sans-serif;">AWAITING STUDENT SELECTION</p>
+            <h2>[ STUDENT_LIST ]</h2>
+            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; margin-top: 15px; font-family: sans-serif;">AWAITING SELECTION</p>
             <div class="node-grid" id="student-nodes">
                 </div>
         </div>
@@ -201,9 +201,9 @@
         </div>
 
         <div class="panel">
-            <h2>[ OUTPUT_CONSOLE ]</h2>
+            <h2>[ APPRECIATION_DATA ]</h2>
             <div id="terminal">
-                <span id="terminal-text" style="color: var(--text-muted);">> SYSTEM INITIALIZED.<br>> ECE BOARD READY.<br><br>> Select a node on the left to route the appreciation signal...</span><span class="blinking-cursor"></span>
+                <span id="terminal-text" style="color: var(--text-muted);">> SYSTEM INITIALIZED.<br>> ECE BOARD READY.<br><br>> Select a student on the left to read their message...</span><span class="blinking-cursor"></span>
             </div>
         </div>
     </div>
@@ -227,11 +227,11 @@
         const statusText = document.getElementById('status-text');
         let isTyping = false;
 
-        // Generate the 9 buttons
+        // Generate the 9 buttons - Now just the names!
         for (let i = 1; i <= 9; i++) {
             const btn = document.createElement('button');
             btn.className = 'btn-node';
-            btn.innerText = `NODE_${i}: ${messages[i].name}`;
+            btn.innerText = messages[i].name; 
             btn.onclick = () => processSignal(i, btn);
             nodeGrid.appendChild(btn);
         }
@@ -242,10 +242,10 @@
 
             document.querySelectorAll('.btn-node').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            statusText.innerText = `STATUS: ROUTING SIGNAL FROM NODE_${id}`;
+            statusText.innerText = `STATUS: LOADING DATA FROM ${messages[id].name.toUpperCase()}`;
 
             // Clean tech boot sequence
-            const bootSequence = `> Accessing Node_${id} Data...<br>> Sender: <span style="color:var(--utah-red); font-weight:bold;">${messages[id].name}</span><br>> Processing message payload:<br><br>`;
+            const bootSequence = `> Accessing Data...<br>> Sender: <span style="color:var(--utah-red); font-weight:bold;">${messages[id].name}</span><br>> Message Payload:<br><br><span style="color:#000000; font-weight:700; font-size:1.15rem; font-family:'Segoe UI', sans-serif;">`;
             
             terminalText.innerHTML = bootSequence;
             const actualMessage = messages[id].text;
@@ -259,9 +259,10 @@
                     const termDiv = document.getElementById('terminal');
                     termDiv.scrollTop = termDiv.scrollHeight;
                     
-                    setTimeout(typeWriter, 15); // Slightly faster typing speed
+                    setTimeout(typeWriter, 15); 
                 } else {
-                    terminalText.innerHTML += '<br><br><span style="color:var(--text-muted);">> END OF TRANSMISSION</span>';
+                    // Closes the highly visible span and adds the end of transmission text
+                    terminalText.innerHTML += '</span><br><br><span style="color:var(--text-muted); font-size:1rem; font-family:\'Courier New\', monospace;">> END OF TRANSMISSION</span>';
                     statusText.innerText = "STATUS: IDLE";
                     isTyping = false;
                 }
