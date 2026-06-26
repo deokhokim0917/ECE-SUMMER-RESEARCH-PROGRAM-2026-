@@ -6,21 +6,19 @@
     <title>ECE Summer Research Camp 2026 - Data Board</title>
     <style>
         :root {
-            /* Clean Tech / Light Circuit Palette */
+            /* Clean Tech Blueprint Palette */
             --utah-red: #CC0000;
-            --tech-silver: #e2e8f0;
-            --text-dark: #1e293b;
+            --tech-silver: #cbd5e1;
+            --text-dark: #0f172a;
             --text-muted: #64748b;
             --bg-white: #ffffff;
             --bg-offwhite: #f8fafc;
         }
         
         body { 
-            /* Subtle Engineering Dot-Grid Blueprint Background */
             background-color: var(--bg-offwhite);
-            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-image: radial-gradient(var(--tech-silver) 1.5px, transparent 1.5px);
             background-size: 25px 25px;
-            
             color: var(--text-dark); 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             margin: 0; 
@@ -34,15 +32,15 @@
         
         #dashboard { 
             width: 95%; 
-            max-width: 1400px; 
+            max-width: 1500px; /* Made even wider to accommodate the massive logo */
             display: grid; 
-            grid-template-columns: 1fr 1fr 1fr; 
-            gap: 30px; 
-            border: 1px solid var(--tech-silver); 
+            grid-template-columns: 1fr 1.2fr 1fr; /* Center column is wider */
+            gap: 25px; 
+            border: 2px solid var(--tech-silver); 
             padding: 30px; 
             border-radius: 12px; 
-            background: rgba(255, 255, 255, 0.97); 
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
+            background: rgba(255, 255, 255, 0.95); 
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1); 
         }
         
         .panel { 
@@ -51,159 +49,177 @@
             border-radius: 8px; 
             position: relative; 
             background: var(--bg-white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
         }
         
-        /* Circuit board top-accent on panels */
         .panel::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
+            top: 0; left: 0; width: 100%; height: 4px;
             background: linear-gradient(90deg, var(--utah-red) 0%, transparent 100%);
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            border-top-left-radius: 8px; border-top-right-radius: 8px;
         }
         
         h2 { 
-            text-align: center; 
+            text-align: left; 
             color: var(--utah-red); 
-            font-size: 1.2rem; 
+            font-size: 1.1rem; 
             margin-top: 0;
-            border-bottom: 1px solid var(--tech-silver);
-            padding-bottom: 15px;
+            border-bottom: 2px solid var(--tech-silver);
+            padding-bottom: 10px;
             letter-spacing: 2px;
             text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        /* Left Panel: Input Nodes */
+        /* Hardware Status LEDs */
+        .led-container { display: flex; gap: 8px; }
+        .led { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #333; }
+        .led-idle { background: #10b981; box-shadow: 0 0 8px #10b981; }
+        .led-busy { background: #333; }
+        .system-busy .led-idle { background: #333; box-shadow: none; }
+        .system-busy .led-busy { background: var(--utah-red); box-shadow: 0 0 12px var(--utah-red); animation: pulse 0.5s infinite; }
+        
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* Left Panel: Hardware Switches */
         .node-grid { 
             display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            margin-top: 25px;
+            grid-template-columns: 1fr; 
+            gap: 12px; 
+            margin-top: 15px;
+            overflow-y: auto;
+            max-height: 500px;
         }
         
         .btn-node { 
-            background: var(--bg-white); 
-            border: 2px solid var(--tech-silver); 
+            background: #f1f5f9; 
+            border: 2px outset #e2e8f0; /* Looks like a raised 3D button */
             color: var(--text-dark); 
-            padding: 15px 10px; 
+            padding: 18px 15px; 
             cursor: pointer; 
-            transition: all 0.2s ease; 
-            font-family: inherit; 
-            font-size: 1rem; 
-            border-radius: 6px;
-            font-weight: 600;
+            font-family: 'Courier New', monospace; 
+            font-size: 1.05rem; 
+            border-radius: 4px;
+            font-weight: 700;
+            text-align: left;
+            position: relative;
+            box-shadow: 2px 4px 6px rgba(0,0,0,0.05);
         }
         
-        .btn-node:hover, .btn-node.active { 
-            border-color: var(--utah-red);
-            color: var(--utah-red); 
-            background: #fff5f5;
-            box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1); 
-            transform: translateY(-2px);
-        }
-        
-        /* Center Panel: Main Display */
-        .cpu-container { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: flex-start; 
-            text-align: center; 
+        .btn-node::before {
+            content: ''; display: inline-block; width: 10px; height: 10px; 
+            background: #cbd5e1; border-radius: 50%; margin-right: 15px; border: 1px solid #94a3b8;
         }
 
+        .btn-node:hover { background: #e2e8f0; }
+        
+        .btn-node.active { 
+            border-style: inset; /* Presses the button down */
+            background: #fff5f5;
+            box-shadow: none;
+            transform: translateY(2px);
+            color: var(--utah-red);
+        }
+        
+        .btn-node.active::before { background: var(--utah-red); box-shadow: 0 0 8px var(--utah-red); border-color: var(--utah-red); }
+        
+        /* Center Panel: Massive Display */
+        .cpu-container { align-items: center; justify-content: center; text-align: center; }
+
         .logo-img {
-            width: 340px; /* Made the logo WAY bigger */
-            margin-top: 15px;
-            margin-bottom: 25px;
+            width: 100%; 
+            max-width: 450px; /* MASSIVE LOGO */
+            margin: 20px 0;
+            filter: drop-shadow(0 15px 25px rgba(204, 0, 0, 0.15));
         }
         
-        .cpu-chip { 
-            width: 240px; 
-            height: 200px; 
-            border: 4px solid var(--utah-red); 
-            background: var(--bg-white); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            border-radius: 12px; 
-            position: relative; 
-            margin: 10px 0 30px 0; 
-            /* Inner circuit styling */
-            box-shadow: inset 0 0 0 4px var(--bg-white), inset 0 0 0 5px var(--tech-silver);
-        }
-        
-        .cpu-text { 
-            color: var(--text-dark); 
-            font-weight: bold; 
-            font-size: 1.2rem; 
-            line-height: 1.6;
+        .sys-info {
+            background: #f8fafc; border: 1px dashed var(--tech-silver); padding: 15px; border-radius: 6px;
+            font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--text-muted); text-align: left; width: 80%; margin-top: 20px;
         }
         
         /* Right Panel: Terminal Output */
         #terminal { 
-            background: var(--bg-offwhite); 
-            color: var(--text-dark); 
+            background: #0f172a; /* Dark screen for contrast */
+            color: #10b981; /* Hacker Green for boot, turns white for message */
             padding: 25px; 
             border-radius: 6px; 
-            height: 380px; 
+            flex-grow: 1;
             overflow-y: auto; 
-            border: 1px solid var(--tech-silver); 
-            border-left: 4px solid var(--utah-red); /* Tech interface accent */
-            font-size: 1rem; 
-            line-height: 1.8;
-            font-family: 'Courier New', monospace; /* Brings back the coding feel */
+            border: 4px solid #334155; 
+            font-size: 1.05rem; 
+            line-height: 1.7;
+            font-family: 'Courier New', monospace; 
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
         
         .blinking-cursor { 
-            display: inline-block; 
-            width: 10px; 
-            height: 1.1em; 
-            background-color: var(--utah-red); 
-            animation: blink 1s step-end infinite; 
-            vertical-align: bottom; 
-            margin-left: 3px;
+            display: inline-block; width: 10px; height: 1.1em; background-color: #10b981; 
+            animation: blink 1s step-end infinite; vertical-align: bottom; margin-left: 3px;
         }
         
+        /* Animated Digital Waveform */
+        .waveform { display: flex; gap: 3px; height: 30px; align-items: flex-end; margin-bottom: 20px; opacity: 0; transition: opacity 0.3s; }
+        .system-busy .waveform { opacity: 1; }
+        .bar { width: 8px; background: var(--utah-red); animation: eq 0.8s ease-in-out infinite alternate; }
+        .bar:nth-child(1) { animation-delay: 0.1s; }
+        .bar:nth-child(2) { animation-delay: 0.3s; }
+        .bar:nth-child(3) { animation-delay: 0.5s; }
+        .bar:nth-child(4) { animation-delay: 0.2s; }
+        .bar:nth-child(5) { animation-delay: 0.6s; }
+        
+        @keyframes eq { 0% { height: 5px; } 100% { height: 30px; } }
         @keyframes blink { 50% { opacity: 0; } }
 
-        @media (max-width: 1100px) {
-            #dashboard { grid-template-columns: 1fr; }
-            .cpu-container { order: -1; }
-        }
+        @media (max-width: 1200px) { #dashboard { grid-template-columns: 1fr; } .cpu-container { order: -1; } }
     </style>
 </head>
 <body>
     <div id="dashboard">
         <div class="panel">
-            <h2>[ STUDENT_LIST ]</h2>
-            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; margin-top: 15px; font-family: sans-serif;">AWAITING SELECTION</p>
+            <h2>
+                <span>INPUT_SWITCHES</span>
+                <div class="led-container" id="sys-leds">
+                    <div class="led led-idle"></div>
+                    <div class="led led-busy"></div>
+                </div>
+            </h2>
             <div class="node-grid" id="student-nodes">
                 </div>
         </div>
 
         <div class="panel cpu-container">
-            <h2>ECE SUMMER RESEARCH PROGRAM 2026</h2>
+            <h2 style="width: 100%; border: none; text-align: center; justify-content: center;">SYSTEM CORE</h2>
+            
             <img src="Untitled design.png" alt="University of Utah Logo" class="logo-img">
-            <div class="cpu-chip">
-                <div class="cpu-text">
-                    Professor<br>
-                    <span style="color: var(--utah-red); font-size: 1.4rem;">Hanseop Kim</span><br>
-                    <br>
-                    <span style="color: var(--text-muted); font-size: 0.9rem; font-weight: 500;">Univ. of Utah Asia Campus</span>
-                </div>
+            
+            <div style="font-size: 2rem; font-weight: 900; color: var(--text-dark); margin-top: 10px;">
+                Professor Hanseop Kim
             </div>
-            <p style="color: var(--text-muted); font-size: 1rem; font-weight: bold; font-family: monospace;" id="status-text">STATUS: IDLE</p>
+            <div style="font-size: 1.1rem; color: var(--utah-red); font-weight: bold; letter-spacing: 2px; margin-top: 5px;">
+                ECE SUMMER RESEARCH CAMP 2026
+            </div>
+
+            <div class="sys-info">
+                > V_CHAIR_VOLTAGE ... 5.0V (STABLE)<br>
+                > CLOCK_FREQ ........ 3.2 GHz<br>
+                > LOGIC_GATES ....... NOMINAL<br>
+                > DATA_BUS .......... <span id="bus-status" style="color: var(--utah-red); font-weight: bold;">IDLE</span>
+            </div>
         </div>
 
         <div class="panel">
-            <h2>[ APPRECIATION_DATA ]</h2>
+            <h2>OUTPUT_CONSOLE</h2>
             <div id="terminal">
-                <span id="terminal-text" style="color: var(--text-muted);">> SYSTEM INITIALIZED.<br>> ECE BOARD READY.<br><br>> Select a student on the left to read their message...</span><span class="blinking-cursor"></span>
+                <div class="waveform">
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                </div>
+                <span id="terminal-text">> ECE KERNEL BOOT SEQUENCE COMPLETE.<br>> WAITING FOR HARDWARE INTERRUPT...<br><br>Toggle a student switch to initiate data transfer.</span><span class="blinking-cursor"></span>
             </div>
         </div>
     </div>
@@ -224,51 +240,81 @@
 
         const nodeGrid = document.getElementById('student-nodes');
         const terminalText = document.getElementById('terminal-text');
-        const statusText = document.getElementById('status-text');
+        const leds = document.getElementById('sys-leds');
+        const busStatus = document.getElementById('bus-status');
         let isTyping = false;
 
-        // Generate the 9 buttons - Now just the names!
+        // Generate the 9 hardware buttons
         for (let i = 1; i <= 9; i++) {
             const btn = document.createElement('button');
             btn.className = 'btn-node';
-            btn.innerText = messages[i].name; 
+            btn.innerText = `[SW_${i}] ${messages[i].name}`;
             btn.onclick = () => processSignal(i, btn);
             nodeGrid.appendChild(btn);
+        }
+
+        // The cool ECE Hacker Decryption Effect
+        function scrambleText(elementId, finalString, callback) {
+            const chars = "01ABCDEF";
+            let iterations = 0;
+            const el = document.getElementById(elementId);
+            
+            const interval = setInterval(() => {
+                el.innerText = finalString.split("").map((letter, index) => {
+                    if (index < iterations) return finalString[index];
+                    return chars[Math.floor(Math.random() * chars.length)];
+                }).join("");
+                
+                if (iterations >= finalString.length) {
+                    clearInterval(interval);
+                    if (callback) callback();
+                }
+                iterations += 1/2; // Speed of decryption
+            }, 30);
         }
 
         function processSignal(id, btn) {
             if (isTyping) return;
             isTyping = true;
 
+            // UI Updates for active state
             document.querySelectorAll('.btn-node').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            statusText.innerText = `STATUS: LOADING DATA FROM ${messages[id].name.toUpperCase()}`;
+            leds.classList.add('system-busy');
+            busStatus.innerText = "RECEIVING";
+            busStatus.style.color = "#10b981";
 
-            // Clean tech boot sequence
-            const bootSequence = `> Accessing Data...<br>> Sender: <span style="color:var(--utah-red); font-weight:bold;">${messages[id].name}</span><br>> Message Payload:<br><br><span style="color:#000000; font-weight:700; font-size:1.15rem; font-family:'Segoe UI', sans-serif;">`;
+            // Boot sequence HTML setup
+            terminalText.innerHTML = `> INITIATING SIGNAL DECRYPTION...<br>> SENDER_ID: <span id="decryption-target" style="color:white; font-weight:bold; background:#CC0000; padding:2px 5px;">0x0000000</span><br><br><span id="payload-target" style="color:white; font-size:1.15rem; font-family:'Segoe UI', sans-serif;"></span>`;
             
-            terminalText.innerHTML = bootSequence;
             const actualMessage = messages[id].text;
-            let i = 0;
 
-            function typeWriter() {
-                if (i < actualMessage.length) {
-                    terminalText.innerHTML += actualMessage.charAt(i);
-                    i++;
-                    
-                    const termDiv = document.getElementById('terminal');
-                    termDiv.scrollTop = termDiv.scrollHeight;
-                    
-                    setTimeout(typeWriter, 15); 
-                } else {
-                    // Closes the highly visible span and adds the end of transmission text
-                    terminalText.innerHTML += '</span><br><br><span style="color:var(--text-muted); font-size:1rem; font-family:\'Courier New\', monospace;">> END OF TRANSMISSION</span>';
-                    statusText.innerText = "STATUS: IDLE";
-                    isTyping = false;
+            // Run the scramble effect on the name first
+            scrambleText("decryption-target", messages[id].name.toUpperCase(), () => {
+                
+                // After name decrypts, type the message
+                let i = 0;
+                const payloadTarget = document.getElementById('payload-target');
+
+                function typeWriter() {
+                    if (i < actualMessage.length) {
+                        payloadTarget.innerHTML += actualMessage.charAt(i);
+                        i++;
+                        
+                        const termDiv = document.getElementById('terminal');
+                        termDiv.scrollTop = termDiv.scrollHeight;
+                        
+                        setTimeout(typeWriter, 15); 
+                    } else {
+                        terminalText.innerHTML += '<br><br><span style="color:#64748b; font-size:1rem; font-family:\'Courier New\', monospace;">> TX_COMPLETE. BUS RELEASED.</span>';
+                        leds.classList.remove('system-busy');
+                        busStatus.innerText = "IDLE";
+                        busStatus.style.color = "var(--utah-red)";
+                        isTyping = false;
+                    }
                 }
-            }
-            
-            setTimeout(typeWriter, 400); 
+                setTimeout(typeWriter, 200); 
+            });
         }
     </script>
 </body>
