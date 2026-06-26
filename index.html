@@ -32,9 +32,9 @@
         
         #dashboard { 
             width: 95%; 
-            max-width: 1500px; /* Made even wider to accommodate the massive logo */
+            max-width: 1600px; /* Expanded maximum width for massive screens */
             display: grid; 
-            grid-template-columns: 1fr 1.2fr 1fr; /* Center column is wider */
+            grid-template-columns: 1fr 1.6fr 1fr; /* Made the center column significantly wider */
             gap: 25px; 
             border: 2px solid var(--tech-silver); 
             padding: 30px; 
@@ -93,12 +93,12 @@
             gap: 12px; 
             margin-top: 15px;
             overflow-y: auto;
-            max-height: 500px;
+            max-height: 550px;
         }
         
         .btn-node { 
             background: #f1f5f9; 
-            border: 2px outset #e2e8f0; /* Looks like a raised 3D button */
+            border: 2px outset #e2e8f0; 
             color: var(--text-dark); 
             padding: 18px 15px; 
             cursor: pointer; 
@@ -119,7 +119,7 @@
         .btn-node:hover { background: #e2e8f0; }
         
         .btn-node.active { 
-            border-style: inset; /* Presses the button down */
+            border-style: inset; 
             background: #fff5f5;
             box-shadow: none;
             transform: translateY(2px);
@@ -133,20 +133,21 @@
 
         .logo-img {
             width: 100%; 
-            max-width: 450px; /* MASSIVE LOGO */
-            margin: 20px 0;
+            max-width: 800px; /* INCREASED ALLOWANCE FOR MASSIVE LOGO */
+            margin: 20px auto;
+            display: block;
             filter: drop-shadow(0 15px 25px rgba(204, 0, 0, 0.15));
         }
         
         .sys-info {
             background: #f8fafc; border: 1px dashed var(--tech-silver); padding: 15px; border-radius: 6px;
-            font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--text-muted); text-align: left; width: 80%; margin-top: 20px;
+            font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--text-muted); text-align: left; width: 85%; margin-top: 20px;
         }
         
         /* Right Panel: Terminal Output */
         #terminal { 
-            background: #0f172a; /* Dark screen for contrast */
-            color: #10b981; /* Hacker Green for boot, turns white for message */
+            background: #0f172a; 
+            color: #10b981; 
             padding: 25px; 
             border-radius: 6px; 
             flex-grow: 1;
@@ -156,6 +157,7 @@
             line-height: 1.7;
             font-family: 'Courier New', monospace; 
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            min-height: 400px;
         }
         
         .blinking-cursor { 
@@ -183,7 +185,7 @@
     <div id="dashboard">
         <div class="panel">
             <h2>
-                <span>INPUT_SWITCHES</span>
+                <span>DATA_LINKS</span>
                 <div class="led-container" id="sys-leds">
                     <div class="led led-idle"></div>
                     <div class="led led-busy"></div>
@@ -198,7 +200,7 @@
             
             <img src="Untitled design.png" alt="University of Utah Logo" class="logo-img">
             
-            <div style="font-size: 2rem; font-weight: 900; color: var(--text-dark); margin-top: 10px;">
+            <div style="font-size: 2.2rem; font-weight: 900; color: var(--text-dark); margin-top: 10px;">
                 Professor Hanseop Kim
             </div>
             <div style="font-size: 1.1rem; color: var(--utah-red); font-weight: bold; letter-spacing: 2px; margin-top: 5px;">
@@ -206,10 +208,10 @@
             </div>
 
             <div class="sys-info">
-                > V_CHAIR_VOLTAGE ... 5.0V (STABLE)<br>
-                > CLOCK_FREQ ........ 3.2 GHz<br>
-                > LOGIC_GATES ....... NOMINAL<br>
-                > DATA_BUS .......... <span id="bus-status" style="color: var(--utah-red); font-weight: bold;">IDLE</span>
+                > SYSTEM_POWER ...... 100% (STABLE)<br>
+                > NEURAL_LINK ....... ACTIVE<br>
+                > STUDENT_DATA ...... SECURED<br>
+                > COMMS_BUS ......... <span id="bus-status" style="color: var(--utah-red); font-weight: bold;">IDLE</span>
             </div>
         </div>
 
@@ -219,7 +221,7 @@
                 <div class="waveform">
                     <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                 </div>
-                <span id="terminal-text">> ECE KERNEL BOOT SEQUENCE COMPLETE.<br>> WAITING FOR HARDWARE INTERRUPT...<br><br>Toggle a student switch to initiate data transfer.</span><span class="blinking-cursor"></span>
+                <span id="terminal-text">> SECURE SYSTEM BOOT SEQUENCE COMPLETE.<br>> WAITING FOR DATA INTERRUPT...<br><br>Toggle a student link to initiate transmission.</span><span class="blinking-cursor"></span>
             </div>
         </div>
     </div>
@@ -248,7 +250,7 @@
         for (let i = 1; i <= 9; i++) {
             const btn = document.createElement('button');
             btn.className = 'btn-node';
-            btn.innerText = `[SW_${i}] ${messages[i].name}`;
+            btn.innerText = `[LNK_${i}] ${messages[i].name}`;
             btn.onclick = () => processSignal(i, btn);
             nodeGrid.appendChild(btn);
         }
@@ -285,7 +287,7 @@
             busStatus.style.color = "#10b981";
 
             // Boot sequence HTML setup
-            terminalText.innerHTML = `> INITIATING SIGNAL DECRYPTION...<br>> SENDER_ID: <span id="decryption-target" style="color:white; font-weight:bold; background:#CC0000; padding:2px 5px;">0x0000000</span><br><br><span id="payload-target" style="color:white; font-size:1.15rem; font-family:'Segoe UI', sans-serif;"></span>`;
+            terminalText.innerHTML = `> INITIATING SECURE DECRYPTION...<br>> SENDER_ID: <span id="decryption-target" style="color:white; font-weight:bold; background:#CC0000; padding:2px 5px;">0x0000000</span><br><br><span id="payload-target" style="color:white; font-size:1.15rem; font-family:'Segoe UI', sans-serif;"></span>`;
             
             const actualMessage = messages[id].text;
 
