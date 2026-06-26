@@ -132,8 +132,45 @@
         /* Center Panel: Sleek Minimalist Design */
         .cpu-container { 
             align-items: center; 
-            justify-content: center; 
+            justify-content: flex-start; 
             text-align: center; 
+        }
+
+        /* Recipient Target Switcher */
+        .channel-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--tech-silver);
+            flex-wrap: wrap;
+        }
+
+        .btn-channel {
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .btn-channel:hover {
+            border-color: var(--utah-red);
+            color: var(--utah-red);
+        }
+
+        .btn-channel.active {
+            background: var(--utah-red);
+            color: white;
+            border-color: var(--utah-red);
+            box-shadow: 0 4px 10px rgba(204, 0, 0, 0.25);
         }
 
         /* Minimalist Signal Pulse Line */
@@ -231,9 +268,15 @@
         </div>
 
         <div class="panel cpu-container">
-            <h2 style="width: 100%; border: none; text-align: center; justify-content: center; margin-bottom: 30px;">SYSTEM CORE</h2>
             
-            <div style="font-size: 2.6rem; font-weight: 900; color: var(--text-dark); line-height: 1.2;">
+            <div class="channel-selector">
+                <button class="btn-channel active" onclick="switchRecipient('kim')">Prof. Hanseop Kim</button>
+                <button class="btn-channel" onclick="switchRecipient('moses')">Dr. Moses</button>
+                <button class="btn-channel" onclick="switchRecipient('john')">Mr. John</button>
+                <button class="btn-channel" onclick="switchRecipient('bob')">Mr. Bob</button>
+            </div>
+
+            <div id="display-name" style="font-size: 2.6rem; font-weight: 900; color: var(--text-dark); line-height: 1.2;">
                 Professor<br>Hanseop Kim
             </div>
 
@@ -248,8 +291,8 @@
             </div>
 
             <div class="sys-info">
+                > TARGET_LOCK ....... <span id="target-readout" style="color: var(--utah-red); font-weight: bold;">KIM</span><br>
                 > SYSTEM_POWER ...... 100% (STABLE)<br>
-                > NEURAL_LINK ....... ACTIVE<br>
                 > STUDENT_DATA ...... SECURED<br>
                 > COMMS_BUS ......... <span id="bus-status" style="color: var(--utah-red); font-weight: bold;">IDLE</span>
             </div>
@@ -267,55 +310,147 @@
     </div>
 
     <script>
-        // --- DATA SECTION: PASTE THE MESSAGES HERE ---
-        const messages = {
-            1: { name: "Jongmin Lee", text: "Thank you so much for planning and organizing this incredible program for us! It was such an honor and privilege to visit the main campus and experience everything you put together. The tour of the Nanofab and the advanced research labs was truly amazing and deeply inspiring for all of us. Thank you for your vision, dedication, and for providing us with this invaluable opportunity to grow. We respect you so much!" },
-            2: { name: "Sejin Lee", text: "Thank you for the ECE summer program you designed, exploring new labs and companies truly opened my mind. Going beyond the Asia Campus gave me so much to explore, and now my future research goals are clearer than before. I truly appreciate you giving me this great opportunity once more." },
-            3: { name: "Deokho Kim", text: "Thank you so much for creating this program so we could experience life at the main campus before eventually making our move to SLC. This camp has led me to think much more deeply about my future and showed me so many exciting paths I can take within the ECE department. Seeing all these opportunities firsthand has really fueled my ambitions, and I am incredibly grateful for the direction and inspiration this experience has given me." },
-            4: { name: "Jeongbin Lee", text: "Thank you for giving us the lab tours during the summer camp. Before the camp, I was not sure what major or job I wanted in the future. After the lab tours, I could think more about what I want to study. It was very helpful. If I have a chance like this again, I really want to join again. Thank you so much!" },
-            5: { name: "Juram Lee", text: "Thank you for giving me the opportunity to participate in the ECE 2026 Summer Camp. I truly appreciate all the time and effort you put into organizing this program. It was a valuable experience, and I learned a lot throughout the camp. Thank you for your support and encouragement." },
-            6: { name: "Junho Yun", text: "Thank you for offering us this opportunity. During the ECE summer camp I learned a lot and experienced so many things that I didn't know before. With such expereience I will make sure I contribute more to the ECE department! Thank you so much! I will see you soon!" },
-            7: { name: "Woohyun Kang", text: "Thank you so much for organizing this amazing summer camp. I truly appreciate all the effort you have put into making this program possible. Meeting many professors and visiting their research labs was one of the most valuable parts of this experience. I also really appreciated how you helped us understand life in Utah and made us feel welcome. Thank you for giving us such a meaningful and unforgettable experience." },
-            8: { name: "Eonjin Kim", text: "Thank you so much for your endless support and dedication during the Summer Camp! We were deeply moved by how you constantly made time to look after us, even with your incredibly busy schedule. It was so reassuring and empowering to have your strong guidance as our department chair, always encouraging us to take on new opportunities and grow. Thanks to your warm mentorship and care, I feel immense pride as an ECE student and have learned so much. I will continue to work hard to repay your kindness. Wishing you continuous health and happiness!" },
-            9: { name: "Student 9", text: "Paste Student 9's message here!" },
+        // --- MASTER DATA SECTION ---
+        // 9 Students, Alphabetically Sorted, covering all 4 recipients.
+        
+        const database = {
+            kim: [
+                { name: "Deokho Kim", text: "Thank you so much for creating this program so we could experience life at the main campus before eventually making our move to SLC. This camp has led me to think much more deeply about my future and showed me so many exciting paths I can take within the ECE department. Seeing all these opportunities firsthand has really fueled my ambitions, and I am incredibly grateful for the direction and inspiration this experience has given me." },
+                { name: "Eonjin Im", text: "Thank you so much for your endless support and dedication during the Summer Camp! We were deeply moved by how you constantly made time to look after us, even with your incredibly busy schedule. It was so reassuring and empowering to have your strong guidance as our department chair, always encouraging us to take on new opportunities and grow. Thanks to your warm mentorship and care, I feel immense pride as an ECE student and have learned so much. I will continue to work hard to repay your kindness. Wishing you continuous health and happiness!" },
+                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Jeongbin Lee", text: "Thank you for giving us the lab tours during the summer camp. Before the camp, I was not sure what major or job I wanted in the future. After the lab tours, I could think more about what I want to study. It was very helpful. If I have a chance like this again, I really want to join again. Thank you so much!" },
+                { name: "Jongmin Lee", text: "Thank you so much for planning and organizing this incredible program for us! It was such an honor and privilege to visit the main campus and experience everything you put together. The tour of the Nanofab and the advanced research labs was truly amazing and deeply inspiring for all of us. Thank you for your vision, dedication, and for providing us with this invaluable opportunity to grow. We respect you so much!" },
+                { name: "Junho Yun", text: "Thank you for offering us this opportunity. During the ECE summer camp I learned a lot and experienced so many things that I didn't know before. With such expereience I will make sure I contribute more to the ECE department! Thank you so much! I will see you soon!" },
+                { name: "Juram Lee", text: "Thank you for giving me the opportunity to participate in the ECE 2026 Summer Camp. I truly appreciate all the time and effort you put into organizing this program. It was a valuable experience, and I learned a lot throughout the camp. Thank you for your support and encouragement." },
+                { name: "Sejin Lee", text: "Thank you for the ECE summer program you designed, exploring new labs and companies truly opened my mind. Going beyond the Asia Campus gave me so much to explore, and now my future research goals are clearer than before. I truly appreciate you giving me this great opportunity once more." },
+                { name: "Woohyun Kang", text: "Thank you so much for organizing this amazing summer camp. I truly appreciate all the effort you have put into making this program possible. Meeting many professors and visiting their research labs was one of the most valuable parts of this experience. I also really appreciated how you helped us understand life in Utah and made us feel welcome. Thank you for giving us such a meaningful and unforgettable experience." }
+            ],
+            moses: [
+                { name: "Deokho Kim", text: "Thank you for all the hard work you put into planning this trip and taking such great care of us over the last two weeks. Because of your thoughtful preparation and organization, we had an amazing time focusing on the research camp. I am truly grateful for everything you did behind the scenes to make this such a smooth and welcoming experience." },
+                { name: "Eonjin Im", text: "Thank you so much for always supporting and looking after us throughout the Summer Camp! Just having a Korean professor with us on this trip gave me so much comfort and strength. Thanks to your guidance, we were able to finish the camp successfully. Thank you for making such precious memories with us. Wishing you all the best and good health!" },
+                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Jeongbin Lee", text: "Thank you so much for leading us during the summer camp. Because of you, we had a safe and fun time, and I made many good memories. Thank you very much!" },
+                { name: "Jongmin Lee", text: "Thank you so much for your incredible support during our visit! We are so grateful to you for personally picking us up from the airport and connecting us with amazing volunteers who made our stay so comfortable and smooth. Thanks to your thoughtful arrangements, we were able to adapt quickly and enjoy every moment here without any worries. Thank you for your warmth and for taking such good care of us!" },
+                { name: "Junho Yun", text: "Thank you so much for helping me in many ways since I arrived in the United States. Thanks to your kindness and support, I was able to adjust well and didn't feel too overwhelmed when I first got here. I truly appreciate everything you have done for me. I hope we can meet again sometime in the future. Until then, please take care and stay healthy." },
+                { name: "Juram Lee", text: "When I first arrived here, everything felt new and unfamiliar. Thank you for always driving us safely and taking such good care of us throughout the camp. Your kindness and support made me feel comfortable and helped me enjoy the camp even more. Thanks to you, I was able to make many great memories. I truly appreciate everything you did for us. Wishing you all the best and good health!" },
+                { name: "Sejin Lee", text: "Thanks for putting so much effort into the summer camp. It was a great experience, and I'll keep working hard to make the most of it." },
+                { name: "Woohyun Kang", text: "Thank you so much for your kindness during this summer camp. From the moment we arrived, you took great care of us and safely drove us from the airport to the university. I really appreciated how you always checked on our health and made us feel welcome. Thank you for making this experience so memorable." }
+            ],
+            john: [
+                { name: "Deokho Kim", text: "Thank you so much for taking us to so many amazing places in Utah during the camp. I could really feel how much you cared about us and wanted to make sure we truly enjoyed both the state and the main campus. Your kindness made this trip unforgettable, and I appreciate everything you did for us!" },
+                { name: "Eonjin Im", text: "Thank you so much for everything during the Summer Camp! I felt so safe and comfortable thanks to your driving and thoughtful care throughout the trip. Especially when I fell behind during the hiking at Bryce Canyon and the mountains, I was struggling, but your extra support and encouragement kept me going. As an ECE student, this camp has become an unforgettable memory. Thank you for your warmth and kindness. Wishing you all the best and good health!" },
+                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Jeongbin Lee", text: "Thank you so much for taking care of us during the summer camp. Because of you, I could see many beautiful places and eat delicious food. I also had so much fun doing activities and playing volleyball together. You were always kind and friendly, so I felt very comfortable and happy. Thank you for everything!" },
+                { name: "Jongmin Lee", text: "Thank you so much for making our tour from the Asia Campus to the main campus so unforgettable! We are incredibly grateful for your safe driving to Bryce Canyon and Capitol Reef, the amazing campus tour, and all the delicious food you prepared for us. Your kindness made us feel so welcomed. We will never forget your warmth! Thank you!" },
+                { name: "Junho Yun", text: "Thank you for taking us around the state! I had so much fun in Utah. I really enjoyed hiking in Bryce canyon, and capitol reef. Also, the steaks you made for us were the best streak I ever had in my life! Thank you for roasting the meat for us in the Air bnb! Thank you so much for all your hard work! I will see you soon!!" },
+                { name: "Juram Lee", text: "Thank you for driving us, helping us throughout the camp, and making sure everything went smoothly. I really appreciate your kindness and support. Because of your help, I was able to enjoy the camp comfortably. Thank you!" },
+                { name: "Sejin Lee", text: "Thanks for the rides over the past two weeks. I really appreciate you taking me to those great spots, even in this heat. Your thoughtfulness will really help me settle in well when I come to the U of U main campus later." },
+                { name: "Woohyun Kang", text: "Thank you so much for being our guide during this summer camp. When I first met you at the airport, I thought you were a very kind and friendly person, and after spending the past two weeks with you, that impression only grew stronger. Thank you for always picking us up every morning, driving us safely, and treating us to so many delicious meals. I truly appreciate everything you did for us. Thank you for making this summer camp such a wonderful and unforgettable experience. Thank you, John!" }
+            ],
+            bob: [
+                { name: "Deokho Kim", text: "I want to send a huge thank you for showing us around and helping us experience the best parts of Utah. It meant a lot to see the genuine effort you put into making sure we had a great time exploring the main campus. I really appreciate all your care and support over these past two weeks!" },
+                { name: "Eonjin Im", text: "Thank you from the bottom of my heart for your incredible kindness during the camp. Thank you for driving us safely and taking such good care of us. When I got left behind during the Bryce Canyon and mountain hikes, I would have been so lost without your extra care and attention. Thanks to your warm heart, I had an amazing time at the summer camp as an ECE student. Thank you for creating such precious memories with us. Take care and stay happy!" },
+                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Jeongbin Lee", text: "Thank you so much for taking care of us during the summer camp. I still remember when we rode in the car together and played a quiz game. It was so much fun! After I came to the U.S., I really missed Korean food. When I ate tteokbokki at the camp, I was so happy. Thank you for giving us such a great time!" },
+                { name: "Jongmin Lee", text: "Thank you from the bottom of our hearts for taking such good care of us during our Utah tour! Thank you for driving us safely to the beautiful Bryce Canyon and Capitol Reef, guiding us around the main campus, and preparing all the great food. Thanks to your dedication and warmth, we made memories that will last a lifetime. Take care!" },
+                { name: "Junho Yun", text: "Hello Bob, Thank you for taking us around the state and driving us all day! I loved looking around the city and hiking! I also had a great tiem with the food! The food you made for us and bought for us were awesome! I would love to try them again when I come back here! I will see you again when I come back to Main Campus! Thank you so much for all your hard work! I will see you soon!!" },
+                { name: "Juram Lee", text: "Thank you for taking care of us during the camp. I appreciate you driving us, ordering meals, and helping us whenever we needed something. Your support made the experience much easier and more enjoyable. Thank you very much!" },
+                { name: "Sejin Lee", text: "I'm so grateful for your help with the rides these past two weeks. Thanks for going out of your way to show me around, even in this heat. Your support makes me feel much more confident about settling in when I return to the U of U main campus." },
+                { name: "Woohyun Kang", text: "Thank you so much for everything you did for us during this summer camp. Your warm personality and positive attitude made the experience even more enjoyable. Thank you for always driving us safely, taking us to great places, and treating us to delicious meals. I truly appreciate all your kindness and support. Thank you for making this summer camp such a fun and unforgettable experience. I wish you all the best, Bob!" }
+            ]
         };
 
+        const displayNames = {
+            kim: "Professor<br>Hanseop Kim",
+            moses: "Dr.<br>Moses",
+            john: "Mr.<br>John",
+            bob: "Mr.<br>Bob"
+        };
+
+        let currentChannel = 'kim';
+        let isTyping = false;
         const nodeGrid = document.getElementById('student-nodes');
         const terminalText = document.getElementById('terminal-text');
         const leds = document.getElementById('sys-leds');
         const busStatus = document.getElementById('bus-status');
-        let isTyping = false;
 
-        for (let i = 1; i <= 9; i++) {
-            const btn = document.createElement('button');
-            btn.className = 'btn-node';
-            btn.innerText = `[LNK_${i}] ${messages[i].name}`;
-            btn.onclick = () => processSignal(i, btn);
-            nodeGrid.appendChild(btn);
+        // Initialization: Build the hardware buttons
+        function buildStudentNodes() {
+            nodeGrid.innerHTML = ''; // Clear existing
+            const currentList = database[currentChannel];
+            
+            for (let i = 0; i < currentList.length; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'btn-node';
+                // Add leading zero to numbers under 10 (e.g., LNK_01)
+                const linkId = (i + 1).toString().padStart(2, '0');
+                btn.innerText = `[LNK_${linkId}] ${currentList[i].name}`;
+                btn.onclick = () => processSignal(i, btn);
+                nodeGrid.appendChild(btn);
+            }
         }
 
-        function scrambleText(elementId, finalString, callback) {
+        buildStudentNodes();
+
+        // The Channel Switcher Logic
+        function switchRecipient(channel) {
+            if (isTyping) return; // Prevent switching while a message is typing
+            
+            // Update UI active states
+            document.querySelectorAll('.btn-channel').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentChannel = channel;
+            
+            // Rebuild buttons to ensure they pull from the new array
+            buildStudentNodes();
+            
+            // Reset terminal
+            terminalText.innerHTML = `> RE-ROUTING SECURE CONNECTION...<br>> TARGET ESTABLISHED.<br><br>Toggle a student link to initiate transmission.`;
+            
+            // Update Tech Readout
+            document.getElementById('target-readout').innerText = channel.toUpperCase();
+            
+            // Scramble animation for the central name
+            scrambleText("display-name", displayNames[channel], null, true);
+        }
+
+        // The ECE Hacker Decryption Effect
+        function scrambleText(elementId, finalString, callback, isHTML = false) {
             const chars = "01ABCDEF";
             let iterations = 0;
             const el = document.getElementById(elementId);
             
+            // Strip HTML tags for length calculation if needed, but since we are scrambling,
+            // we will just do a direct visual scramble and snap to the HTML string at the end.
+            const scrambleLength = isHTML ? finalString.replace(/<[^>]*>?/gm, '').length : finalString.length;
+            
             const interval = setInterval(() => {
-                el.innerText = finalString.split("").map((letter, index) => {
-                    if (index < iterations) return finalString[index];
-                    return chars[Math.floor(Math.random() * chars.length)];
-                }).join("");
+                let scrambled = "";
+                for(let j=0; j<scrambleLength; j++){
+                    scrambled += chars[Math.floor(Math.random() * chars.length)];
+                }
+                el.innerText = scrambled;
                 
-                if (iterations >= finalString.length) {
+                iterations += 1; 
+                if (iterations >= 15) {
                     clearInterval(interval);
+                    if(isHTML) {
+                        el.innerHTML = finalString; // Insert the true HTML (like the <br>)
+                    } else {
+                        el.innerText = finalString;
+                    }
                     if (callback) callback();
                 }
-                iterations += 1/2; 
             }, 30);
         }
 
-        function processSignal(id, btn) {
+        function processSignal(studentIndex, btn) {
             if (isTyping) return;
             isTyping = true;
+
+            const studentName = database[currentChannel][studentIndex].name;
+            const actualMessage = database[currentChannel][studentIndex].text;
 
             document.querySelectorAll('.btn-node').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -325,9 +460,7 @@
 
             terminalText.innerHTML = `> INITIATING SECURE DECRYPTION...<br>> SENDER_ID: <span id="decryption-target" style="color:white; font-weight:bold; background:#CC0000; padding:2px 5px;">0x0000000</span><br><br><span id="payload-target" style="color:white; font-size:1.15rem; font-family:'Segoe UI', sans-serif;"></span>`;
             
-            const actualMessage = messages[id].text;
-
-            scrambleText("decryption-target", messages[id].name.toUpperCase(), () => {
+            scrambleText("decryption-target", studentName.toUpperCase(), () => {
                 
                 let i = 0;
                 const payloadTarget = document.getElementById('payload-target');
