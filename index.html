@@ -271,7 +271,7 @@
             
             <div class="channel-selector">
                 <button class="btn-channel active" onclick="switchRecipient('kim')">Prof. Hanseop Kim</button>
-                <button class="btn-channel" onclick="switchRecipient('moses')">Dr. Moses</button>
+                <button class="btn-channel" onclick="switchRecipient('moses')">Prof. Moses</button>
                 <button class="btn-channel" onclick="switchRecipient('john')">Mr. John</button>
                 <button class="btn-channel" onclick="switchRecipient('bob')">Mr. Bob</button>
             </div>
@@ -360,11 +360,12 @@
             ]
         };
 
+        // Fixed formatting so the names display perfectly on one line!
         const displayNames = {
             kim: "Professor<br>Hanseop Kim",
-            moses: "Dr.<br>Moses",
-            john: "Mr.<br>John",
-            bob: "Mr.<br>Bob"
+            moses: "Professor Moses",
+            john: "Mr. John",
+            bob: "Mr. Bob"
         };
 
         let currentChannel = 'kim';
