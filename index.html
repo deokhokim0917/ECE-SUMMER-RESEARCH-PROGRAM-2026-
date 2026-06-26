@@ -250,6 +250,36 @@
         @keyframes eq { 0% { height: 5px; } 100% { height: 30px; } }
         @keyframes blink { 50% { opacity: 0; } }
 
+        /* Floating Gallery Button */
+        .gallery-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 30px;
+            background: var(--bg-white);
+            border: 2px solid var(--utah-red);
+            color: var(--utah-red);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(204, 0, 0, 0.15);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .gallery-btn:hover {
+            background: var(--utah-red);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(204, 0, 0, 0.25);
+        }
+
         @media (max-width: 1200px) { #dashboard { grid-template-columns: 1fr; } .cpu-container { order: -1; } }
     </style>
 </head>
@@ -318,15 +348,21 @@
         </div>
     </div>
 
+    <!-- Floating Gallery Button -->
+    <a href="https://photos.app.goo.gl/zp3CyXPXtQpd5j4Y6" target="_blank" class="gallery-btn">
+        📸 [ PHOTO_ARCHIVE ]
+    </a>
+
     <script>
         // --- MASTER DATA SECTION ---
         // 9 Students, Alphabetically Sorted, covering all 5 recipients!
+        // Hwang Jun's messages have been fully updated.
         
         const database = {
             kim: [
                 { name: "Deokho Kim", text: "Thank you so much for creating this program so we could experience life at the main campus before eventually making our move to SLC. This camp has led me to think much more deeply about my future and showed me so many exciting paths I can take within the ECE department. Seeing all these opportunities firsthand has really fueled my ambitions, and I am incredibly grateful for the direction and inspiration this experience has given me." },
                 { name: "Eonjin Im", text: "Thank you so much for your endless support and dedication during the Summer Camp! We were deeply moved by how you constantly made time to look after us, even with your incredibly busy schedule. It was so reassuring and empowering to have your strong guidance as our department chair, always encouraging us to take on new opportunities and grow. Thanks to your warm mentorship and care, I feel immense pride as an ECE student and have learned so much. I will continue to work hard to repay your kindness. Wishing you continuous health and happiness!" },
-                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Hwang Jun", text: "It was a pleasure to be able to go on this trip with you. If it hadn’t been for you, I don’t think I would have ever had the opportunity to experience hiking like this in my lifetime. Thank you for taking such good care of us throughout these two weeks and for always trying to give us wonderful memories that I’ll cherish for a long time. I hope that someday we’ll have the chance to go hiking together on the mountain behind our school." },
                 { name: "Jeongbin Lee", text: "Thank you for giving us the lab tours during the summer camp. Before the camp, I was not sure what major or job I wanted in the future. After the lab tours, I could think more about what I want to study. It was very helpful. If I have a chance like this again, I really want to join again. Thank you so much!" },
                 { name: "Jongmin Lee", text: "Thank you so much for planning and organizing this incredible program for us! It was such an honor and privilege to visit the main campus and experience everything you put together. The tour of the Nanofab and the advanced research labs was truly amazing and deeply inspiring for all of us. Thank you for your vision, dedication, and for providing us with this invaluable opportunity to grow. We respect you so much!" },
                 { name: "Junho Yun", text: "Thank you for offering us this opportunity. During the ECE summer camp I learned a lot and experienced so many things that I didn't know before. With such expereience I will make sure I contribute more to the ECE department! Thank you so much! I will see you soon!" },
@@ -337,7 +373,7 @@
             moses: [
                 { name: "Deokho Kim", text: "Thank you for all the hard work you put into planning this trip and taking such great care of us over the last two weeks. Because of your thoughtful preparation and organization, we had an amazing time focusing on the research camp. I am truly grateful for everything you did behind the scenes to make this such a smooth and welcoming experience." },
                 { name: "Eonjin Im", text: "Thank you so much for always supporting and looking after us throughout the Summer Camp! Just having a Korean professor with us on this trip gave me so much comfort and strength. Thanks to your guidance, we were able to finish the camp successfully. Thank you for making such precious memories with us. Wishing you all the best and good health!" },
-                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Hwang Jun", text: "It was a pleasure to be able to go on this trip with you. If it hadn’t been for you, I don’t think I would have ever had the opportunity to experience hiking like this in my lifetime. Thank you for taking such good care of us throughout these two weeks and for always trying to give us wonderful memories that I’ll cherish for a long time. I hope that someday we’ll have the chance to go hiking together on the mountain behind our school." },
                 { name: "Jeongbin Lee", text: "Thank you so much for leading us during the summer camp. Because of you, we had a safe and fun time, and I made many good memories. Thank you very much!" },
                 { name: "Jongmin Lee", text: "Thank you so much for your incredible support during our visit! We are so grateful to you for personally picking us up from the airport and connecting us with amazing volunteers who made our stay so comfortable and smooth. Thanks to your thoughtful arrangements, we were able to adapt quickly and enjoy every moment here without any worries. Thank you for your warmth and for taking such good care of us!" },
                 { name: "Junho Yun", text: "Thank you so much for helping me in many ways since I arrived in the United States. Thanks to your kindness and support, I was able to adjust well and didn't feel too overwhelmed when I first got here. I truly appreciate everything you have done for me. I hope we can meet again sometime in the future. Until then, please take care and stay healthy." },
@@ -346,9 +382,9 @@
                 { name: "Woohyun Kang", text: "Thank you so much for your kindness during this summer camp. From the moment we arrived, you took great care of us and safely drove us from the airport to the university. I really appreciated how you always checked on our health and made us feel welcome. Thank you for making this experience so memorable." }
             ],
             benoit: [
-                { name: "Deokho Kim", text: "Thank you for being such an incredible and cool professor to us. Having you here from the Asia Campus made this camp so much more special. I really appreciate how you always encouraged us to have fun and find ways to truly enjoy Utah outside of our research program. Who would have ever thought we would be hiking through the mountains with our own professor? That was such an unforgettable experience, and I am so grateful for all the great memories we made together." },
+                { name: "Deokho Kim", text: "Thank you for being such an incredible and cool professor to us. Having you here from the Asia Campus made this camp so much more special. I really appreciate how you always encouraged us to have fun and find ways to truly enjoy Utah outside of our research. Who would have ever thought we would be hiking through the mountains with our own professor? That was such an unforgettable experience, and I am so grateful for all the great memories we made together." },
                 { name: "Eonjin Im", text: "Thank you for your kindness and support throughout this program. Your passion for hiking and your warm heart made this trip unforgettable. I was so happy to explore the beautiful nature of Utah with you. Stay healthy and have many more wonderful hiking adventures!" },
-                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Hwang Jun", text: "It was a pleasure to be able to go on this trip with you. If it hadn’t been for you, I don’t think I would have ever had the opportunity to experience hiking like this in my lifetime. Thank you for taking such good care of us throughout these two weeks and for always trying to give us wonderful memories that I’ll cherish for a long time. I hope that someday we’ll have the chance to go hiking together on the mountain behind our school." },
                 { name: "Jeongbin Lee", text: "Thank you so much for leading us during the summer camp. Because of you, I really enjoyed the hike. It was hard, but I had so much fun that it did not feel too hard. Thank you for giving us such a great memory!" },
                 { name: "Jongmin Lee", text: "Thank you so much for traveling with us all the way from the Asia Campus and always making the atmosphere so fun and bright! We also truly appreciate how you explained the lab tours so clearly and easily for us to understand. You made this entire experience so engaging and unforgettable. Thank you for your amazing energy and care!" },
                 { name: "Junho Yun", text: "Thank you so much for welcoming us and supporting us throughout our time in Utah. I really appreciate the time and effort you put into helping us and making this trip meaningful. Also, thank you for taking us on so many hikes. I really enjoyed seeing the beautiful places in Utah Thank you again for everything you have done for us." },
@@ -359,7 +395,7 @@
             john: [
                 { name: "Deokho Kim", text: "Thank you so much for taking us to so many amazing places in Utah during the camp. I could really feel how much you cared about us and wanted to make sure we truly enjoyed both the state and the main campus. Your kindness made this trip unforgettable, and I appreciate everything you did for us!" },
                 { name: "Eonjin Im", text: "Thank you so much for everything during the Summer Camp! I felt so safe and comfortable thanks to your driving and thoughtful care throughout the trip. Especially when I fell behind during the hiking at Bryce Canyon and the mountains, I was struggling, but your extra support and encouragement kept me going. As an ECE student, this camp has become an unforgettable memory. Thank you for your warmth and kindness. Wishing you all the best and good health!" },
-                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Hwang Jun", text: "It was a pleasure to be able to go on this trip with you. If it hadn’t been for you, I don’t think I would have ever had the opportunity to experience hiking like this in my lifetime. Thank you for taking such good care of us throughout these two weeks and for always trying to give us wonderful memories that I’ll cherish for a long time. I hope that someday we’ll have the chance to go hiking together on the mountain behind our school." },
                 { name: "Jeongbin Lee", text: "Thank you so much for taking care of us during the summer camp. Because of you, I could see many beautiful places and eat delicious food. I also had so much fun doing activities and playing volleyball together. You were always kind and friendly, so I felt very comfortable and happy. Thank you for everything!" },
                 { name: "Jongmin Lee", text: "Thank you so much for making our tour from the Asia Campus to the main campus so unforgettable! We are incredibly grateful for your safe driving to Bryce Canyon and Capitol Reef, the amazing campus tour, and all the delicious food you prepared for us. Your kindness made us feel so welcomed. We will never forget your warmth! Thank you!" },
                 { name: "Junho Yun", text: "Thank you for taking us around the state! I had so much fun in Utah. I really enjoyed hiking in Bryce canyon, and capitol reef. Also, the steaks you made for us were the best streak I ever had in my life! Thank you for roasting the meat for us in the Air bnb! Thank you so much for all your hard work! I will see you soon!!" },
@@ -370,7 +406,7 @@
             bob: [
                 { name: "Deokho Kim", text: "I want to send a huge thank you for showing us around and helping us experience the best parts of Utah. It meant a lot to see the genuine effort you put into making sure we had a great time exploring the main campus. I really appreciate all your care and support over these past two weeks!" },
                 { name: "Eonjin Im", text: "Thank you from the bottom of my heart for your incredible kindness during the camp. Thank you for driving us safely and taking such good care of us. When I got left behind during the Bryce Canyon and mountain hikes, I would have been so lost without your extra care and attention. Thanks to your warm heart, I had an amazing time at the summer camp as an ECE student. Thank you for creating such precious memories with us. Take care and stay happy!" },
-                { name: "Hwang Jun", text: "Paste Hwang Jun's message here!" },
+                { name: "Hwang Jun", text: "It was a pleasure to be able to go on this trip with you. If it hadn’t been for you, I don’t think I would have ever had the opportunity to experience hiking like this in my lifetime. Thank you for taking such good care of us throughout these two weeks and for always trying to give us wonderful memories that I’ll cherish for a long time. I hope that someday we’ll have the chance to go hiking together on the mountain behind our school." },
                 { name: "Jeongbin Lee", text: "Thank you so much for taking care of us during the summer camp. I still remember when we rode in the car together and played a quiz game. It was so much fun! After I came to the U.S., I really missed Korean food. When I ate tteokbokki at the camp, I was so happy. Thank you for giving us such a great time!" },
                 { name: "Jongmin Lee", text: "Thank you from the bottom of our hearts for taking such good care of us during our Utah tour! Thank you for driving us safely to the beautiful Bryce Canyon and Capitol Reef, guiding us around the main campus, and preparing all the great food. Thanks to your dedication and warmth, we made memories that will last a lifetime. Take care!" },
                 { name: "Junho Yun", text: "Hello Bob, Thank you for taking us around the state and driving us all day! I loved looking around the city and hiking! I also had a great tiem with the food! The food you made for us and bought for us were awesome! I would love to try them again when I come back here! I will see you again when I come back to Main Campus! Thank you so much for all your hard work! I will see you soon!!" },
