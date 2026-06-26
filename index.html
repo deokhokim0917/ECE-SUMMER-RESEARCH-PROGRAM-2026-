@@ -3,85 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECE Summer Research Camp 2026 - Terminal</title>
+    <title>ECE Summer Research Camp 2026 - Appreciation Board</title>
     <style>
         :root {
-            --neon-blue: #00f3ff;
-            --neon-green: #39ff14;
-            --neon-gold: #ffba08;
-            --bg-dark: #0a0a0f;
-            --panel-bg: #11111a;
+            /* Warm, bright Utah/Bryce Canyon color palette */
+            --utah-red: #CC0000;
+            --canyon-orange: #E85D04;
+            --sandstone: #FFBA08;
+            --text-dark: #2B1A10;
+            --panel-bg: rgba(255, 255, 255, 0.85); /* Frosted glass effect */
         }
         
         body { 
-            background-color: var(--bg-dark); 
-            color: white; 
-            font-family: 'Courier New', Courier, monospace; 
+            /* Bryce Canyon CSS Sunset Landscape */
+            background: 
+                radial-gradient(circle at 50% 25%, #FFF0BA 0%, #FFE066 8%, transparent 10%),
+                linear-gradient(to bottom, #87CEEB 0%, #FFB677 40%, #E85D04 75%, #8B261D 100%);
+            background-attachment: fixed;
+            
+            color: var(--text-dark); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
             padding: 20px; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
-            font-size: 1.1rem; /* Increased base font size */
+            font-size: 1.1rem;
         }
         
         #dashboard { 
             width: 95%; 
-            max-width: 1400px; /* Made the whole dashboard wider */
+            max-width: 1400px; 
             display: grid; 
             grid-template-columns: 1fr 1fr 1fr; 
-            gap: 30px; /* Increased spacing between panels */
-            border: 1px solid #333; 
-            padding: 30px; /* Increased inner padding */
-            border-radius: 10px; 
-            background: var(--panel-bg); 
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.05); 
+            gap: 30px; 
+            border: 2px solid rgba(255, 255, 255, 0.5); 
+            padding: 30px; 
+            border-radius: 15px; 
+            background: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); 
         }
         
         .panel { 
-            border: 1px solid #222; 
-            padding: 25px; /* Bigger padding inside panels */
-            border-radius: 5px; 
+            border: 1px solid rgba(204, 0, 0, 0.2); 
+            padding: 25px; 
+            border-radius: 10px; 
             position: relative; 
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--panel-bg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
         h2 { 
             text-align: center; 
-            color: var(--neon-blue); 
-            font-size: 1.2rem; /* Bigger headers */
+            color: var(--utah-red); 
+            font-size: 1.3rem; 
             margin-top: 0;
-            border-bottom: 1px solid #222;
+            border-bottom: 2px solid var(--canyon-orange);
             padding-bottom: 15px;
             letter-spacing: 1px;
+            font-weight: 800;
         }
         
         /* Left Panel: Input Nodes */
         .node-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 15px; /* Bigger gaps between buttons */
+            gap: 15px; 
             margin-top: 25px;
         }
         
         .btn-node { 
-            background: transparent; 
-            border: 1px solid #444; 
-            color: #aaa; 
-            padding: 15px 10px; /* Bigger buttons */
+            background: white; 
+            border: 2px solid var(--canyon-orange); 
+            color: var(--text-dark); 
+            padding: 15px 10px; 
             cursor: pointer; 
-            transition: all 0.2s; 
+            transition: all 0.2s ease-in-out; 
             font-family: inherit; 
-            font-size: 1rem; /* Bigger button text */
-            border-radius: 3px;
+            font-size: 1rem; 
+            border-radius: 8px;
+            font-weight: 600;
         }
         
         .btn-node:hover, .btn-node.active { 
-            border-color: var(--neon-blue);
-            color: var(--neon-blue); 
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); 
-            font-weight: bold;
+            background: var(--canyon-orange);
+            color: white; 
+            box-shadow: 0 4px 10px rgba(232, 93, 4, 0.3); 
+            transform: translateY(-2px);
         }
         
         /* Center Panel: Main Display */
@@ -91,54 +101,56 @@
             align-items: center; 
             justify-content: flex-start; 
             text-align: center; 
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .logo-img {
-            width: 80px; /* Size of the U of U Logo */
-            margin-top: 10px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 5px rgba(204, 0, 0, 0.5));
+            width: 160px; /* Doubled the logo size */
+            margin-top: 15px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
         }
         
         .cpu-chip { 
-            width: 220px; /* Bigger chip */
-            height: 220px; /* Bigger chip */
-            border: 2px solid var(--neon-gold); 
-            background: #14141f; 
+            width: 240px; 
+            height: 200px; 
+            border: 3px solid var(--utah-red); 
+            background: white; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            border-radius: 6px; 
-            box-shadow: 0 0 15px rgba(255, 186, 8, 0.15); 
+            border-radius: 12px; 
+            box-shadow: 0 8px 20px rgba(204, 0, 0, 0.1); 
             position: relative; 
             margin: 10px 0 30px 0; 
         }
         
         .cpu-text { 
-            color: var(--neon-gold); 
-            font-weight: bold; 
-            font-size: 1.1rem; /* Bigger chip text */
-            line-height: 1.6;
+            color: var(--utah-red); 
+            font-weight: 900; 
+            font-size: 1.3rem; 
+            line-height: 1.5;
         }
         
-        /* Right Panel: Terminal */
+        /* Right Panel: Terminal/Paper Output */
         #terminal { 
-            background: #050507; 
-            color: var(--neon-green); 
-            padding: 20px; 
-            border-radius: 5px; 
-            height: 380px; /* Taller terminal window */
+            background: #FFF9F2; 
+            color: var(--text-dark); 
+            padding: 25px; 
+            border-radius: 8px; 
+            height: 360px; 
             overflow-y: auto; 
-            border: 1px solid #222; 
-            font-size: 1rem; /* Bigger terminal text */
-            line-height: 1.6;
+            border: 2px solid rgba(232, 93, 4, 0.3); 
+            font-size: 1.05rem; 
+            line-height: 1.8;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
         
         .blinking-cursor { 
             display: inline-block; 
             width: 10px; 
             height: 1.1em; 
-            background-color: var(--neon-green); 
+            background-color: var(--utah-red); 
             animation: blink 1s step-end infinite; 
             vertical-align: bottom; 
             margin-left: 3px;
@@ -154,31 +166,26 @@
 </head>
 <body>
     <div id="dashboard">
-        <!-- Left Panel: Input Nodes -->
         <div class="panel">
-            <h2>[ STUDENT_MESSAGES ]</h2>
-            <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 15px;">SELECT A NAME TO READ</p>
+            <h2>MESSAGES</h2>
+            <p style="font-size: 0.9rem; color: #666; text-align: center; margin-top: 15px; font-weight: 600;">SELECT A STUDENT</p>
             <div class="node-grid" id="student-nodes">
-                <!-- Buttons injected by JS -->
-            </div>
+                </div>
         </div>
 
-        <!-- Center Panel: Processor -->
         <div class="panel cpu-container">
-            <h2>[ ECE SUMMER RESEARCH PROGRAM 2026 ]</h2>
-            <!-- Official U of U Logo from Wikimedia Commons -->
+            <h2>ECE SUMMER RESEARCH PROGRAM 2026</h2>
             <img src="Untitled design.png" alt="University of Utah Logo" class="logo-img">
             <div class="cpu-chip">
-                <div class="cpu-text">Professor<br>Hanseop Kim<br><br><span style="color: white; font-size: 0.9rem; font-weight: normal; opacity: 0.8;">ECE SUMMER<br>RESEARCH CAMP<br>2026</span></div>
+                <div class="cpu-text">Professor<br>Hanseop Kim<br><br><span style="color: var(--canyon-orange); font-size: 1rem; font-weight: 600;">University of Utah<br>Asia Campus</span></div>
             </div>
-            <p style="color: #666; font-size: 0.9rem;" id="status-text">System: Ready</p>
+            <p style="color: var(--utah-red); font-size: 1rem; font-weight: bold;" id="status-text">Ready for messages...</p>
         </div>
 
-        <!-- Right Panel: Terminal Output -->
         <div class="panel">
-            <h2>[ TERMINAL_OUTPUT ]</h2>
+            <h2>APPRECIATION BOARD</h2>
             <div id="terminal">
-                <span id="terminal-text">> System online.<br>> Select a student node to read their message...</span><span class="blinking-cursor"></span>
+                <span id="terminal-text" style="color: #666; font-style: italic;">Welcome.<br><br>Please select a student's name on the left to read their message for Professor Kim.</span><span class="blinking-cursor"></span>
             </div>
         </div>
     </div>
@@ -192,7 +199,7 @@
             4: { name: "Jeongbin Lee", text: "Thank you for giving us the lab tours during the summer camp. Before the camp, I was not sure what major or job I wanted in the future. After the lab tours, I could think more about what I want to study. It was very helpful. If I have a chance like this again, I really want to join again. Thank you so much!" },
             5: { name: "Juram Lee", text: "Thank you for giving me the opportunity to participate in the ECE 2026 Summer Camp. I truly appreciate all the time and effort you put into organizing this program. It was a valuable experience, and I learned a lot throughout the camp. Thank you for your support and encouragement." },
             6: { name: "Junho Yun", text: "Thank you for offering us this opportunity. During the ECE summer camp I learned a lot and experienced so many things that I didn't know before. With such expereience I will make sure I contribute more to the ECE department! Thank you so much! I will see you soon!" },
-            7: { name: "WOohyun Kang", text: "Thank you so much for organizing this amazing summer camp. I truly appreciate all the effort you have put into making this program possible. Meeting many professors and visiting their research labs was one of the most valuable parts of this experience. I also really appreciated how you helped us understand life in Utah and made us feel welcome. Thank you for giving us such a meaningful and unforgettable experience." },
+            7: { name: "Woohyun Kang", text: "Thank you so much for organizing this amazing summer camp. I truly appreciate all the effort you have put into making this program possible. Meeting many professors and visiting their research labs was one of the most valuable parts of this experience. I also really appreciated how you helped us understand life in Utah and made us feel welcome. Thank you for giving us such a meaningful and unforgettable experience." },
             8: { name: "Eonjin Kim", text: "Thank you so much for your endless support and dedication during the Summer Camp! We were deeply moved by how you constantly made time to look after us, even with your incredibly busy schedule. It was so reassuring and empowering to have your strong guidance as our department chair, always encouraging us to take on new opportunities and grow. Thanks to your warm mentorship and care, I feel immense pride as an ECE student and have learned so much. I will continue to work hard to repay your kindness. Wishing you continuous health and happiness!" },
             9: { name: "Student 9", text: "Paste Student 9's message here!" },
         };
@@ -217,9 +224,10 @@
 
             document.querySelectorAll('.btn-node').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            statusText.innerText = `System: Reading data from ${messages[id].name}...`;
+            statusText.innerText = `Loading message from ${messages[id].name}...`;
 
-            const bootSequence = `> Connecting to node_${id}...<br>> Loading message from: <span style="color:white;">${messages[id].name}</span><br><br>`;
+            // Bright theme boot sequence
+            const bootSequence = `<span style="color:var(--canyon-orange); font-weight:bold;">From:</span> <span style="color:var(--utah-red); font-weight:bold; font-size:1.2rem;">${messages[id].name}</span><br><br>`;
             
             terminalText.innerHTML = bootSequence;
             const actualMessage = messages[id].text;
@@ -235,13 +243,12 @@
                     
                     setTimeout(typeWriter, 20); 
                 } else {
-                    terminalText.innerHTML += '<br><br><span style="color:#555;">[End of Message]</span>';
-                    statusText.innerText = "System: Ready";
+                    statusText.innerText = "Ready for messages...";
                     isTyping = false;
                 }
             }
             
-            setTimeout(typeWriter, 500); 
+            setTimeout(typeWriter, 300); 
         }
     </script>
 </body>
