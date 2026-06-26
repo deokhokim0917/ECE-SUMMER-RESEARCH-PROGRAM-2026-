@@ -32,9 +32,9 @@
         
         #dashboard { 
             width: 95%; 
-            max-width: 1600px; /* Expanded maximum width for massive screens */
+            max-width: 1600px; 
             display: grid; 
-            grid-template-columns: 1fr 1.6fr 1fr; /* Made the center column significantly wider */
+            grid-template-columns: 1fr 1.6fr 1fr; 
             gap: 25px; 
             border: 2px solid var(--tech-silver); 
             padding: 30px; 
@@ -128,20 +128,24 @@
         
         .btn-node.active::before { background: var(--utah-red); box-shadow: 0 0 8px var(--utah-red); border-color: var(--utah-red); }
         
-        /* Center Panel: Massive Display */
-        .cpu-container { align-items: center; justify-content: center; text-align: center; }
+        /* Center Panel: PERFECTLY CENTERED NOW */
+        .cpu-container { 
+            align-items: center; 
+            justify-content: center; /* This scooches everything to the exact middle */
+            text-align: center; 
+        }
 
-        .logo-img {
-            width: 100%; 
-            max-width: 800px; /* INCREASED ALLOWANCE FOR MASSIVE LOGO */
-            margin: 20px auto;
-            display: block;
-            filter: drop-shadow(0 15px 25px rgba(204, 0, 0, 0.15));
+        /* Pure CSS Coded Block U Logo */
+        .coded-logo {
+            width: 180px; 
+            height: 180px;
+            margin: 0 auto 30px auto;
+            filter: drop-shadow(0 15px 25px rgba(204, 0, 0, 0.25));
         }
         
         .sys-info {
             background: #f8fafc; border: 1px dashed var(--tech-silver); padding: 15px; border-radius: 6px;
-            font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--text-muted); text-align: left; width: 85%; margin-top: 20px;
+            font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--text-muted); text-align: left; width: 85%; margin-top: 30px;
         }
         
         /* Right Panel: Terminal Output */
@@ -196,14 +200,19 @@
         </div>
 
         <div class="panel cpu-container">
-            <h2 style="width: 100%; border: none; text-align: center; justify-content: center;">SYSTEM CORE</h2>
+            <h2 style="width: 100%; border: none; text-align: center; justify-content: center; position: absolute; top: 25px;">SYSTEM CORE</h2>
             
-            <img src="Untitled design.png" alt="University of Utah Logo" class="logo-img">
+            <svg class="coded-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <polygon fill="var(--utah-red)" points="
+                    0,0 40,0 40,20 35,20 35,80 65,80 65,20 60,20 60,0 100,0 
+                    100,20 85,20 85,80 100,80 100,100 0,100 0,80 15,80 15,20 0,20
+                "/>
+            </svg>
             
-            <div style="font-size: 2.2rem; font-weight: 900; color: var(--text-dark); margin-top: 10px;">
+            <div style="font-size: 2.4rem; font-weight: 900; color: var(--text-dark); margin-top: 10px;">
                 Professor Hanseop Kim
             </div>
-            <div style="font-size: 1.1rem; color: var(--utah-red); font-weight: bold; letter-spacing: 2px; margin-top: 5px;">
+            <div style="font-size: 1.2rem; color: var(--utah-red); font-weight: bold; letter-spacing: 2px; margin-top: 8px;">
                 ECE SUMMER RESEARCH CAMP 2026
             </div>
 
@@ -246,7 +255,6 @@
         const busStatus = document.getElementById('bus-status');
         let isTyping = false;
 
-        // Generate the 9 hardware buttons
         for (let i = 1; i <= 9; i++) {
             const btn = document.createElement('button');
             btn.className = 'btn-node';
@@ -255,7 +263,6 @@
             nodeGrid.appendChild(btn);
         }
 
-        // The cool ECE Hacker Decryption Effect
         function scrambleText(elementId, finalString, callback) {
             const chars = "01ABCDEF";
             let iterations = 0;
@@ -271,7 +278,7 @@
                     clearInterval(interval);
                     if (callback) callback();
                 }
-                iterations += 1/2; // Speed of decryption
+                iterations += 1/2; 
             }, 30);
         }
 
@@ -279,22 +286,18 @@
             if (isTyping) return;
             isTyping = true;
 
-            // UI Updates for active state
             document.querySelectorAll('.btn-node').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             leds.classList.add('system-busy');
             busStatus.innerText = "RECEIVING";
             busStatus.style.color = "#10b981";
 
-            // Boot sequence HTML setup
             terminalText.innerHTML = `> INITIATING SECURE DECRYPTION...<br>> SENDER_ID: <span id="decryption-target" style="color:white; font-weight:bold; background:#CC0000; padding:2px 5px;">0x0000000</span><br><br><span id="payload-target" style="color:white; font-size:1.15rem; font-family:'Segoe UI', sans-serif;"></span>`;
             
             const actualMessage = messages[id].text;
 
-            // Run the scramble effect on the name first
             scrambleText("decryption-target", messages[id].name.toUpperCase(), () => {
                 
-                // After name decrypts, type the message
                 let i = 0;
                 const payloadTarget = document.getElementById('payload-target');
 
