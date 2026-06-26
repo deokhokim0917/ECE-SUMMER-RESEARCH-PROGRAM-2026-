@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V_CHAIR Terminal - ECE Summer Research Camp</title>
+    <title>ECE Summer Research Camp 2026 - Terminal</title>
     <style>
         :root {
             --neon-blue: #00f3ff;
@@ -31,39 +31,29 @@
             display: grid; 
             grid-template-columns: 1fr 1fr 1fr; 
             gap: 20px; 
-            border: 2px solid var(--neon-blue); 
+            border: 1px solid #333; 
             padding: 20px; 
             border-radius: 10px; 
             background: var(--panel-bg); 
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15); 
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.05); 
         }
         
         .panel { 
-            border: 1px solid #333; 
+            border: 1px solid #222; 
             padding: 15px; 
             border-radius: 5px; 
             position: relative; 
-            background: rgba(0, 0, 0, 0.4);
-        }
-        
-        .panel::before { 
-            content: ''; 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 2px; 
-            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent); 
+            background: rgba(0, 0, 0, 0.3);
         }
         
         h2 { 
             text-align: center; 
             color: var(--neon-blue); 
-            text-shadow: 0 0 5px var(--neon-blue); 
-            font-size: 1.1rem; 
+            font-size: 1rem; 
             margin-top: 0;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #222;
             padding-bottom: 10px;
+            letter-spacing: 1px;
         }
         
         /* Left Panel: Input Nodes */
@@ -76,8 +66,8 @@
         
         .btn-node { 
             background: transparent; 
-            border: 1px solid var(--neon-blue); 
-            color: var(--neon-blue); 
+            border: 1px solid #444; 
+            color: #aaa; 
             padding: 12px 5px; 
             cursor: pointer; 
             transition: all 0.2s; 
@@ -87,13 +77,13 @@
         }
         
         .btn-node:hover, .btn-node.active { 
-            background: var(--neon-blue); 
-            color: #000; 
-            box-shadow: 0 0 15px var(--neon-blue); 
+            border-color: var(--neon-blue);
+            color: var(--neon-blue); 
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); 
             font-weight: bold;
         }
         
-        /* Center Panel: CPU / Chip Design */
+        /* Center Panel: Main Display */
         .cpu-container { 
             display: flex; 
             flex-direction: column; 
@@ -103,51 +93,36 @@
         }
         
         .cpu-chip { 
-            width: 160px; 
-            height: 160px; 
-            border: 4px solid var(--neon-gold); 
-            background: #1a1a1a; 
+            width: 180px; 
+            height: 180px; 
+            border: 2px solid var(--neon-gold); 
+            background: #14141f; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            border-radius: 8px; 
-            box-shadow: 0 0 20px rgba(255, 186, 8, 0.3); 
+            border-radius: 6px; 
+            box-shadow: 0 0 15px rgba(255, 186, 8, 0.15); 
             position: relative; 
             margin: 30px 0; 
-        }
-        
-        .cpu-chip::after {
-            content: '';
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            border: 1px dashed var(--neon-gold);
-            border-radius: 12px;
-            opacity: 0.5;
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
         }
         
         .cpu-text { 
             color: var(--neon-gold); 
             font-weight: bold; 
-            font-size: 1rem; 
-            text-shadow: 0 0 5px var(--neon-gold);
+            font-size: 0.9rem; 
+            line-height: 1.6;
         }
         
         /* Right Panel: Terminal */
         #terminal { 
-            background: #050505; 
+            background: #050507; 
             color: var(--neon-green); 
             padding: 15px; 
             border-radius: 5px; 
             height: 300px; 
             overflow-y: auto; 
             border: 1px solid #222; 
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.5;
         }
         
@@ -163,10 +138,9 @@
         
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Mobile Responsiveness */
         @media (max-width: 900px) {
             #dashboard { grid-template-columns: 1fr; }
-            .cpu-container { order: -1; } /* Puts the chip at the top on phones */
+            .cpu-container { order: -1; }
         }
     </style>
 </head>
@@ -174,34 +148,33 @@
     <div id="dashboard">
         <!-- Left Panel: Input Nodes -->
         <div class="panel">
-            <h2>> SIGNAL_INPUTS</h2>
-            <p style="font-size: 0.75rem; color: #888; text-align: center;">SELECT A NODE TO TRANSMIT DATA</p>
+            <h2>[ STUDENT_MESSAGES ]</h2>
+            <p style="font-size: 0.75rem; color: #666; text-align: center; margin-top: 15px;">SELECT A NAME TO READ</p>
             <div class="node-grid" id="student-nodes">
-                <!-- Buttons are injected here by JavaScript -->
+                <!-- Buttons injected by JS -->
             </div>
         </div>
 
         <!-- Center Panel: Processor -->
         <div class="panel cpu-container">
-            <h2>> VLSI_ROUTING_CENTER</h2>
+            <h2>[ PROGRAM_INFO ]</h2>
             <div class="cpu-chip">
-                <div class="cpu-text">PROF_KIM<br>[V_CHAIR]</div>
+                <div class="cpu-text">Professor<br>Hanseop Kim<br><br><span style="color: white; font-size: 0.75rem; font-weight: normal; opacity: 0.8;">ECE SUMMER<br>RESEARCH CAMP<br>2026</span></div>
             </div>
-            <p style="color: var(--neon-blue); font-size: 0.85rem;" id="status-text">Status: Awaiting KCL node analysis...</p>
+            <p style="color: #666; font-size: 0.8rem;" id="status-text">System: Ready</p>
         </div>
 
         <!-- Right Panel: Terminal Output -->
         <div class="panel">
-            <h2>> COMPILED_OUTPUT</h2>
+            <h2>[ TERMINAL_OUTPUT ]</h2>
             <div id="terminal">
-                <span id="terminal-text">> System Initialized.<br>> Awaiting input signal to compile appreciation metric...</span><span class="blinking-cursor"></span>
+                <span id="terminal-text">> System online.<br>> Select a student node to read their message...</span><span class="blinking-cursor"></span>
             </div>
         </div>
     </div>
 
     <script>
         // --- DATA SECTION: PASTE THE MESSAGES HERE ---
-        // Keep the quotation marks around the names and messages!
         const messages = {
             1: { name: "Student 1", text: "Paste Student 1's message here!" },
             2: { name: "Student 2", text: "Paste Student 2's message here!" },
@@ -223,48 +196,43 @@
         for (let i = 1; i <= 9; i++) {
             const btn = document.createElement('button');
             btn.className = 'btn-node';
-            btn.innerText = `NODE_${i} [${messages[i].name}]`;
+            btn.innerText = messages[i].name;
             btn.onclick = () => processSignal(i, btn);
             nodeGrid.appendChild(btn);
         }
 
-        // Logic for typing the message
         function processSignal(id, btn) {
-            if (isTyping) return; // Prevent clicking while another message is typing
+            if (isTyping) return;
             isTyping = true;
 
-            // Highlight the clicked button
             document.querySelectorAll('.btn-node').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            statusText.innerText = `Status: Processing signal from ${messages[id].name}...`;
+            statusText.innerText = `System: Reading data from ${messages[id].name}...`;
 
-            // Cool boot sequence text
-            const bootSequence = `> Executing KCL analysis at NODE_${id}... <br>> Connecting theoretical concepts to chip design module...<br>> Compiling societal impact algorithms...<br>> Accessing secure data from: <span style="color:white;">${messages[id].name}</span><br><br>> <span style="color:var(--neon-gold);">DECRYPTING MESSAGE:</span><br>`;
+            // Simplified execution headers
+            const bootSequence = `> Connecting to node_${id}...<br>> Loading message from: <span style="color:white;">${messages[id].name}</span><br><br>`;
             
             terminalText.innerHTML = bootSequence;
             const actualMessage = messages[id].text;
             let i = 0;
 
-            // Typewriter effect function
             function typeWriter() {
                 if (i < actualMessage.length) {
                     terminalText.innerHTML += actualMessage.charAt(i);
                     i++;
                     
-                    // Auto-scroll to bottom of terminal
                     const termDiv = document.getElementById('terminal');
                     termDiv.scrollTop = termDiv.scrollHeight;
                     
-                    setTimeout(typeWriter, 25); // Speed of the typing effect (lower is faster)
+                    setTimeout(typeWriter, 20); 
                 } else {
-                    terminalText.innerHTML += '<br><br>> <span style="color:gray;">Signal processed successfully. Awaiting next node...</span>';
-                    statusText.innerText = "Status: Awaiting KCL node analysis...";
+                    terminalText.innerHTML += '<br><br><span style="color:#555;">[End of Message]</span>';
+                    statusText.innerText = "System: Ready";
                     isTyping = false;
                 }
             }
             
-            // Short delay before the typing starts to simulate loading
-            setTimeout(typeWriter, 1200); 
+            setTimeout(typeWriter, 500); 
         }
     </script>
 </body>
