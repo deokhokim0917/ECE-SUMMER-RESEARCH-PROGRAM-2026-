@@ -23,16 +23,17 @@
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
+            font-size: 1.1rem; /* Increased base font size */
         }
         
         #dashboard { 
             width: 95%; 
-            max-width: 1200px; 
+            max-width: 1400px; /* Made the whole dashboard wider */
             display: grid; 
             grid-template-columns: 1fr 1fr 1fr; 
-            gap: 20px; 
+            gap: 30px; /* Increased spacing between panels */
             border: 1px solid #333; 
-            padding: 20px; 
+            padding: 30px; /* Increased inner padding */
             border-radius: 10px; 
             background: var(--panel-bg); 
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.05); 
@@ -40,7 +41,7 @@
         
         .panel { 
             border: 1px solid #222; 
-            padding: 15px; 
+            padding: 25px; /* Bigger padding inside panels */
             border-radius: 5px; 
             position: relative; 
             background: rgba(0, 0, 0, 0.3);
@@ -49,10 +50,10 @@
         h2 { 
             text-align: center; 
             color: var(--neon-blue); 
-            font-size: 1rem; 
+            font-size: 1.2rem; /* Bigger headers */
             margin-top: 0;
             border-bottom: 1px solid #222;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
             letter-spacing: 1px;
         }
         
@@ -60,19 +61,19 @@
         .node-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 10px; 
-            margin-top: 20px;
+            gap: 15px; /* Bigger gaps between buttons */
+            margin-top: 25px;
         }
         
         .btn-node { 
             background: transparent; 
             border: 1px solid #444; 
             color: #aaa; 
-            padding: 12px 5px; 
+            padding: 15px 10px; /* Bigger buttons */
             cursor: pointer; 
             transition: all 0.2s; 
             font-family: inherit; 
-            font-size: 0.85rem;
+            font-size: 1rem; /* Bigger button text */
             border-radius: 3px;
         }
         
@@ -88,13 +89,20 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            justify-content: center; 
+            justify-content: flex-start; 
             text-align: center; 
+        }
+
+        .logo-img {
+            width: 80px; /* Size of the U of U Logo */
+            margin-top: 10px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 5px rgba(204, 0, 0, 0.5));
         }
         
         .cpu-chip { 
-            width: 180px; 
-            height: 180px; 
+            width: 220px; /* Bigger chip */
+            height: 220px; /* Bigger chip */
             border: 2px solid var(--neon-gold); 
             background: #14141f; 
             display: flex; 
@@ -103,13 +111,13 @@
             border-radius: 6px; 
             box-shadow: 0 0 15px rgba(255, 186, 8, 0.15); 
             position: relative; 
-            margin: 30px 0; 
+            margin: 10px 0 30px 0; 
         }
         
         .cpu-text { 
             color: var(--neon-gold); 
             font-weight: bold; 
-            font-size: 0.9rem; 
+            font-size: 1.1rem; /* Bigger chip text */
             line-height: 1.6;
         }
         
@@ -117,28 +125,28 @@
         #terminal { 
             background: #050507; 
             color: var(--neon-green); 
-            padding: 15px; 
+            padding: 20px; 
             border-radius: 5px; 
-            height: 300px; 
+            height: 380px; /* Taller terminal window */
             overflow-y: auto; 
             border: 1px solid #222; 
-            font-size: 0.85rem;
-            line-height: 1.5;
+            font-size: 1rem; /* Bigger terminal text */
+            line-height: 1.6;
         }
         
         .blinking-cursor { 
             display: inline-block; 
-            width: 8px; 
+            width: 10px; 
             height: 1.1em; 
             background-color: var(--neon-green); 
             animation: blink 1s step-end infinite; 
             vertical-align: bottom; 
-            margin-left: 2px;
+            margin-left: 3px;
         }
         
         @keyframes blink { 50% { opacity: 0; } }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1100px) {
             #dashboard { grid-template-columns: 1fr; }
             .cpu-container { order: -1; }
         }
@@ -149,7 +157,7 @@
         <!-- Left Panel: Input Nodes -->
         <div class="panel">
             <h2>[ STUDENT_MESSAGES ]</h2>
-            <p style="font-size: 0.75rem; color: #666; text-align: center; margin-top: 15px;">SELECT A NAME TO READ</p>
+            <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 15px;">SELECT A NAME TO READ</p>
             <div class="node-grid" id="student-nodes">
                 <!-- Buttons injected by JS -->
             </div>
@@ -157,11 +165,13 @@
 
         <!-- Center Panel: Processor -->
         <div class="panel cpu-container">
-            <h2>[ PROGRAM_INFO ]</h2>
+            <h2>[ ECE SUMMER RESEARCH PROGRAM 2026 ]</h2>
+            <!-- Official U of U Logo from Wikimedia Commons -->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Utah_Utes_logo.svg" alt="University of Utah Logo" class="logo-img">
             <div class="cpu-chip">
-                <div class="cpu-text">Professor<br>Hanseop Kim<br><br><span style="color: white; font-size: 0.75rem; font-weight: normal; opacity: 0.8;">ECE SUMMER<br>RESEARCH CAMP<br>2026</span></div>
+                <div class="cpu-text">Professor<br>Hanseop Kim<br><br><span style="color: white; font-size: 0.9rem; font-weight: normal; opacity: 0.8;">ECE SUMMER<br>RESEARCH CAMP<br>2026</span></div>
             </div>
-            <p style="color: #666; font-size: 0.8rem;" id="status-text">System: Ready</p>
+            <p style="color: #666; font-size: 0.9rem;" id="status-text">System: Ready</p>
         </div>
 
         <!-- Right Panel: Terminal Output -->
@@ -209,7 +219,6 @@
             btn.classList.add('active');
             statusText.innerText = `System: Reading data from ${messages[id].name}...`;
 
-            // Simplified execution headers
             const bootSequence = `> Connecting to node_${id}...<br>> Loading message from: <span style="color:white;">${messages[id].name}</span><br><br>`;
             
             terminalText.innerHTML = bootSequence;
