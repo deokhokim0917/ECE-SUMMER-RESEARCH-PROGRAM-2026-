@@ -319,4 +319,31 @@
             
             const actualMessage = messages[id].text;
 
-            scrambleText("decryption-target", messages
+            scrambleText("decryption-target", messages[id].name.toUpperCase(), () => {
+                
+                let i = 0;
+                const payloadTarget = document.getElementById('payload-target');
+
+                function typeWriter() {
+                    if (i < actualMessage.length) {
+                        payloadTarget.innerHTML += actualMessage.charAt(i);
+                        i++;
+                        
+                        const termDiv = document.getElementById('terminal');
+                        termDiv.scrollTop = termDiv.scrollHeight;
+                        
+                        setTimeout(typeWriter, 15); 
+                    } else {
+                        terminalText.innerHTML += '<br><br><span style="color:#64748b; font-size:1rem; font-family:\'Courier New\', monospace;">> TX_COMPLETE. BUS RELEASED.</span>';
+                        leds.classList.remove('system-busy');
+                        busStatus.innerText = "IDLE";
+                        busStatus.style.color = "var(--utah-red)";
+                        isTyping = false;
+                    }
+                }
+                setTimeout(typeWriter, 200); 
+            });
+        }
+    </script>
+</body>
+</html>
